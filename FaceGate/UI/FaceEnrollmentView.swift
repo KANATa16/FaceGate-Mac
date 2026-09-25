@@ -123,7 +123,7 @@ struct FaceEnrollmentView: View {
                     .progressViewStyle(.linear)
                     .tint(Color(hue: 0.58, saturation: 0.6, brightness: 0.85))
 
-                    Text("\(enrollmentManager.capturedCount) of \(enrollmentManager.targetFrameCount) captures")
+                    Text(FGLocalization.format("%d of %d captures", enrollmentManager.capturedCount, enrollmentManager.targetFrameCount))
                         .font(.system(size: 11))
                         .foregroundColor(.secondary)
                 }
@@ -232,7 +232,7 @@ struct FaceEnrollmentView: View {
             Text("Face Enrolled!")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white)
-            Text("\(enrollmentManager.capturedCount) reference captures saved")
+            Text(FGLocalization.format("%d reference captures saved", enrollmentManager.capturedCount))
                 .font(.system(size: 12))
                 .foregroundColor(.white.opacity(0.6))
         }
