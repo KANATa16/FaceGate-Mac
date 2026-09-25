@@ -12,9 +12,9 @@ struct PasswordField: View {
         HStack(spacing: 8) {
             Group {
                 if isSecure {
-                    SecureField(placeholder, text: $text)
+                    SecureField(FGLocalization.text(placeholder), text: $text)
                 } else {
-                    TextField(placeholder, text: $text)
+                    TextField(FGLocalization.text(placeholder), text: $text)
                 }
             }
             .textFieldStyle(.plain)

@@ -29,7 +29,7 @@ struct DirectionGuideView: View {
                 }
                 .scaleEffect(animating ? 1.05 : 0.95)
 
-                Text(direction.rawValue)
+                Text(FGLocalization.text(direction.rawValue))
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)

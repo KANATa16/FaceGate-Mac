@@ -36,10 +36,10 @@ struct SettingsView: View {
 
         var description: String {
             switch self {
-            case .lockedApps: return "Choose which apps require authentication."
-            case .authentication: return "Tune Face Unlock, Touch ID, and password fallback."
-            case .behavior: return "Adjust launch, locking, schedules, and emergency controls."
-            case .about: return "Version, license, and project details."
+            case .lockedApps: return FGLocalization.text("Choose which apps require authentication.")
+            case .authentication: return FGLocalization.text("Tune Face Unlock, Touch ID, and password fallback.")
+            case .behavior: return FGLocalization.text("Adjust launch, locking, schedules, and emergency controls.")
+            case .about: return FGLocalization.text("Version, license, and project details.")
             }
         }
     }
@@ -152,7 +152,7 @@ private struct CodexSidebarRow: View {
                     .frame(width: 22)
                     .symbolRenderingMode(.hierarchical)
 
-                Text(tab.rawValue)
+                Text(FGLocalization.text(tab.rawValue))
                     .font(.system(size: 14, weight: .medium))
                     .lineLimit(1)
 
@@ -181,7 +181,7 @@ private struct SettingsDetailPane: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(selectedTab.rawValue)
+                    Text(FGLocalization.text(selectedTab.rawValue))
                         .font(.system(size: 24, weight: .semibold))
                         .foregroundStyle(.white.opacity(0.94))
                     Text(selectedTab.description)
@@ -278,7 +278,7 @@ private struct AuthSettingsView: View {
                         VStack(alignment: .leading) {
                             Text("Face Unlock")
                                 .font(.system(size: 13, weight: .semibold))
-                            Text(faceEnrolled ? "Face enrolled and ready" : "No face enrolled yet")
+                            Text(FGLocalization.text(faceEnrolled ? "Face enrolled and ready" : "No face enrolled yet"))
                                 .font(.system(size: 11))
                                 .foregroundColor(.secondary)
                         }
@@ -382,7 +382,7 @@ private struct AuthSettingsView: View {
                                 Text("Sensitivity")
                                     .font(.system(size: 12))
                                 Spacer()
-                                Text(sensitivityLabel)
+                                Text(FGLocalization.text(sensitivityLabel))
                                     .font(.system(size: 11))
                                     .foregroundColor(.secondary)
                             }
@@ -417,7 +417,7 @@ private struct AuthSettingsView: View {
                         VStack(alignment: .leading) {
                             Text("Touch ID")
                                 .font(.system(size: 13, weight: .medium))
-                            Text(isTouchIDAvailable ? "Available on this Mac" : "Not available on this Mac")
+                            Text(FGLocalization.text(isTouchIDAvailable ? "Available on this Mac" : "Not available on this Mac"))
                                 .font(.system(size: 11))
                                 .foregroundColor(.secondary)
                         }
@@ -441,7 +441,7 @@ private struct AuthSettingsView: View {
                         VStack(alignment: .leading) {
                             Text("App Password")
                                 .font(.system(size: 13, weight: .medium))
-                            Text(PasswordAuth.shared.isPasswordSet ? "Password is set" : "No password set")
+                            Text(FGLocalization.text(PasswordAuth.shared.isPasswordSet ? "Password is set" : "No password set"))
                                 .font(.system(size: 11))
                                 .foregroundColor(.secondary)
                         }
@@ -475,7 +475,7 @@ private struct AuthSettingsView: View {
                             }
 
                             if let error = passwordError {
-                                Text(error)
+                                Text(FGLocalization.text(error))
                                     .font(.system(size: 11))
                                     .foregroundColor(.red)
                             }
@@ -572,7 +572,7 @@ private struct AuthSettingsView: View {
             do {
                 try PasswordAuth.shared.setPassword(newPassword)
             } catch {
-                passwordError = "Failed to save password: \(error.localizedDescription)"
+                passwordError = FGLocalization.format("Failed to save password: %@", error.localizedDescription)
                 return
             }
         }
@@ -1021,7 +1021,7 @@ private struct BehaviorSettingsView: View {
                         }
                     }
                     
-                    Text("Current Shortcut: ⌃⌥\(shortcutModifierSymbol)\(emergencyKillKey)")
+                    Text(FGLocalization.format("Current Shortcut: %@", "⌃⌥\(shortcutModifierSymbol)\(emergencyKillKey)"))
                         .font(.system(size: 11, weight: .semibold))
                         .foregroundColor(.blue)
                     
@@ -1155,7 +1155,8 @@ private struct BehaviorSettingsView: View {
             command = "chflags -R nouchg '\(escapedPath)' && chown -R \(username):staff '\(escapedPath)'"
         }
         
-        let source = "do shell script \"\(command)\" with administrator privileges with prompt \"FaceGate wants to make changes.\""
+        let localizedPrompt = FGLocalization.text("FaceGate wants to make changes.")
+        let source = "do shell script \"\(command)\" with administrator privileges with prompt \"\(localizedPrompt)\""
         
         DispatchQueue.global(qos: .userInitiated).async {
             var error: NSDictionary?
@@ -1429,7 +1430,7 @@ struct LockedAppsSettingsView: View {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 24))
                 .foregroundColor(.secondary)
-            Text("No results matching \"\(searchText)\"")
+            Text(FGLocalization.format("No results matching \"%@\"", searchText))
                 .font(.system(size: 12))
                 .foregroundColor(.secondary)
         }
@@ -1954,7 +1955,7 @@ private struct CameraPickerView: View {
                 VStack(alignment: .leading) {
                     Text("Camera")
                         .font(.system(size: 13, weight: .medium))
-                    Text(selectedCameraLabel)
+                    Text(FGLocalization.text(selectedCameraLabel))
                         .font(.system(size: 11))
                         .foregroundColor(.secondary)
                 }

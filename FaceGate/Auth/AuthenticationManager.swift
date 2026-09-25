@@ -100,7 +100,7 @@ final class AuthenticationManager: ObservableObject {
 
         authState = .authenticating(.touchID)
 
-        touchIDAuth.authenticate(reason: "Unlock \(appName)") { [weak self] result in
+        touchIDAuth.authenticate(reason: FGLocalization.format("Unlock %@", appName)) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success:
@@ -131,7 +131,7 @@ final class AuthenticationManager: ObservableObject {
             onAuthSuccess()
             return true
         } else {
-            onAuthFailure("Incorrect password")
+            onAuthFailure(FGLocalization.text("Incorrect password"))
             return false
         }
     }

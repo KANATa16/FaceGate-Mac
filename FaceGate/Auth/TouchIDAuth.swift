@@ -36,12 +36,12 @@ final class TouchIDAuth {
     /// - Parameter completion: Callback with success/failure result.
     func authenticate(reason: String, completion: @escaping (Result<Void, TouchIDError>) -> Void) {
         let context = LAContext()
-        context.localizedCancelTitle = "Cancel"
+        context.localizedCancelTitle = FGLocalization.text("Cancel")
         context.localizedFallbackTitle = ""  // Hide "Enter Password" fallback (we have our own).
 
         var error: NSError?
         guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
-            completion(.failure(.notAvailable(error?.localizedDescription ?? "Touch ID is not available")))
+            completion(.failure(.notAvailable(error?.localizedDescription ?? FGLocalization.text("Touch ID is not available"))))
             return
         }
 
@@ -64,7 +64,7 @@ final class TouchIDAuth {
                         completion(.failure(.failed(laError.localizedDescription)))
                     }
                 } else {
-                    completion(.failure(.failed(error?.localizedDescription ?? "Unknown error")))
+                    completion(.failure(.failed(error?.localizedDescription ?? FGLocalization.text("Unknown error"))))
                 }
             }
         }
@@ -83,15 +83,15 @@ enum TouchIDError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .notAvailable(let message):
-            return "Touch ID not available: \(message)"
+            return FGLocalization.format("Touch ID not available: %@", message)
         case .cancelled:
-            return "Authentication cancelled"
+            return FGLocalization.text("Authentication cancelled")
         case .fallbackRequested:
-            return "User requested password fallback"
+            return FGLocalization.text("User requested password fallback")
         case .lockedOut:
-            return "Touch ID is locked out. Please try again later."
+            return FGLocalization.text("Touch ID is locked out. Please try again later.")
         case .failed(let message):
-            return "Touch ID failed: \(message)"
+            return FGLocalization.format("Touch ID failed: %@", message)
         }
     }
 }

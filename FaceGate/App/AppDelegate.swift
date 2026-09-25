@@ -115,10 +115,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if setupDone && hasLockedApps {
             // Show auth dialog alert fallback for system-level quit signals.
             let alert = NSAlert()
-            alert.messageText = "Authenticate to Quit"
-            alert.informativeText = "FaceGate is protecting your apps. Enter your password to quit."
-            alert.addButton(withTitle: "Cancel")
-            alert.addButton(withTitle: "Quit Anyway")
+            alert.messageText = FGLocalization.text("Authenticate to Quit")
+            alert.informativeText = FGLocalization.text("FaceGate is protecting your apps. Enter your password to quit.")
+            alert.addButton(withTitle: FGLocalization.text("Cancel"))
+            alert.addButton(withTitle: FGLocalization.text("Quit Anyway"))
             alert.alertStyle = .warning
 
             let response = alert.runModal()
@@ -156,7 +156,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func openSettingsWindow() {
         closeMenuBarWindow()
 
-        ActionAuthWindow.show(reason: "FaceGate Settings") { [weak self] in
+        ActionAuthWindow.show(reason: FGLocalization.text("FaceGate Settings")) { [weak self] in
             guard let self = self else { return }
 
             if let existing = self.settingsWindow {
@@ -174,7 +174,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 backing: .buffered,
                 defer: false
             )
-            window.title = "FaceGate Settings"
+            window.title = FGLocalization.text("FaceGate Settings")
             window.titleVisibility = .hidden
             window.titlebarAppearsTransparent = true
             window.backgroundColor = .clear
@@ -197,12 +197,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func installSettingsSidebarToggle(on window: NSWindow, chromeState: SettingsChromeState) {
         let button = NSButton(frame: NSRect(x: 0, y: 0, width: 30, height: 30))
-        button.image = NSImage(systemSymbolName: "sidebar.leading", accessibilityDescription: "Toggle sidebar")
+        button.image = NSImage(systemSymbolName: "sidebar.leading", accessibilityDescription: FGLocalization.text("Toggle sidebar"))
         button.imagePosition = .imageOnly
         button.bezelStyle = .rounded
         button.isBordered = true
         button.focusRingType = .none
-        button.toolTip = "Toggle sidebar"
+        button.toolTip = FGLocalization.text("Toggle sidebar")
 
         let target = SettingsSidebarToggleTarget(chromeState: chromeState)
         button.target = target
@@ -230,7 +230,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 AppMonitor.shared.startMonitoring()
                 // Find and close the setup window
                 for window in NSApp.windows {
-                    if window.title == "FaceGate Setup" {
+                    if window.title == FGLocalization.text("FaceGate Setup") {
                         window.close()
                     }
                 }
@@ -239,7 +239,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 AppMonitor.shared.startMonitoring()
                 // Close the setup window
                 for window in NSApp.windows {
-                    if window.title == "FaceGate Setup" {
+                    if window.title == FGLocalization.text("FaceGate Setup") {
                         window.close()
                     }
                 }
@@ -254,7 +254,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = "FaceGate Setup"
+        window.title = FGLocalization.text("FaceGate Setup")
         window.level = .floating
         window.contentView = NSHostingView(rootView: setupView)
         window.center()
@@ -302,9 +302,9 @@ extension AppDelegate: SPUUpdaterDelegate {
 
         DispatchQueue.main.async {
             let alert = NSAlert()
-            alert.messageText = "Update Failed — Uninstall Protection Is On"
-            alert.informativeText = "FaceGate's uninstall protection prevents the app bundle from being modified. To update, disable Uninstall Protection in Settings → Advanced, then check for updates again."
-            alert.addButton(withTitle: "OK")
+            alert.messageText = FGLocalization.text("Update Failed — Uninstall Protection Is On")
+            alert.informativeText = FGLocalization.text("FaceGate's uninstall protection prevents the app bundle from being modified. To update, disable Uninstall Protection in Settings → Advanced, then check for updates again.")
+            alert.addButton(withTitle: FGLocalization.text("OK"))
             alert.runModal()
         }
     }

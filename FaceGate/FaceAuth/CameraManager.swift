@@ -329,11 +329,11 @@ final class CameraManager: NSObject, ObservableObject {
         var errorDescription: String? {
             switch self {
             case .permissionDenied:
-                return "Camera access was denied. Please grant camera permission in System Settings."
+                return FGLocalization.text("Camera access was denied. Please grant camera permission in System Settings.")
             case .cameraUnavailable:
-                return "No camera was found on this Mac. Connect an external webcam."
+                return FGLocalization.text("No camera was found on this Mac. Connect an external webcam.")
             case .configurationFailed:
-                return "Failed to configure the camera capture session."
+                return FGLocalization.text("Failed to configure the camera capture session.")
             }
         }
     }

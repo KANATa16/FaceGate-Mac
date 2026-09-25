@@ -75,9 +75,9 @@ enum CryptoError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .encryptionFailed:
-            return "Failed to encrypt data"
+            return FGLocalization.text("Failed to encrypt data")
         case .decryptionFailed:
-            return "Failed to decrypt data"
+            return FGLocalization.text("Failed to decrypt data")
         }
     }
 }

@@ -102,9 +102,9 @@ enum KeychainError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unableToSave(let status):
-            return "Keychain save failed with status: \(status)"
+            return FGLocalization.format("Keychain save failed with status: %d", status)
         case .encodingError:
-            return "Failed to encode data for Keychain storage"
+            return FGLocalization.text("Failed to encode data for Keychain storage")
         }
     }
 }

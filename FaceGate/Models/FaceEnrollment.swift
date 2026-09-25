@@ -34,7 +34,7 @@ struct FaceEnrollment: Codable {
             
             let legacyFace = EnrolledFace(
                 id: UUID(),
-                name: "Face 1",
+                name: FGLocalization.format("Face %d", 1),
                 embeddings: embeddings,
                 enrolledDate: enrolledDate,
                 averageQuality: averageQuality
@@ -55,4 +55,3 @@ struct FaceEnrollment: Codable {
         case averageQuality
     }
 }
-

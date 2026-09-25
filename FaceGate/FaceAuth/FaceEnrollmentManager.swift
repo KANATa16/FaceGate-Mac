@@ -9,7 +9,7 @@ final class FaceEnrollmentManager: ObservableObject {
     @Published var state: EnrollmentState = .idle
     @Published var capturedCount: Int = 0
     @Published var currentQuality: Float = 0
-    @Published var statusMessage: String = "Position your face in the frame"
+    @Published var statusMessage: String = FGLocalization.text("Position your face in the frame")
     @Published var warningMessage: String = ""
     var isAddingFace: Bool = false
 
@@ -39,9 +39,9 @@ final class FaceEnrollmentManager: ObservableObject {
 
         var prompt: String {
             switch self {
-            case .straight: return "Look straight at the camera"
-            case .left: return "Turn your head slightly to the LEFT"
-            case .right: return "Turn your head slightly to the RIGHT"
+            case .straight: return FGLocalization.text("Look straight at the camera")
+            case .left: return FGLocalization.text("Turn your head slightly to the LEFT")
+            case .right: return FGLocalization.text("Turn your head slightly to the RIGHT")
             }
         }
     }
@@ -75,7 +75,7 @@ final class FaceEnrollmentManager: ObservableObject {
         capturedCount = 0
         framesSinceLastCapture = captureInterval  // Allow immediate first capture
         state = .capturing
-        statusMessage = "Look straight at the camera"
+        statusMessage = FGLocalization.text("Look straight at the camera")
         warningMessage = ""
 
         cameraManager.onFrameCaptured = { [weak self] pixelBuffer in
@@ -92,7 +92,7 @@ final class FaceEnrollmentManager: ObservableObject {
         collectedEmbeddings = []
         state = .idle
         capturedCount = 0
-        statusMessage = "Enrollment cancelled"
+        statusMessage = FGLocalization.text("Enrollment cancelled")
         warningMessage = ""
     }
 
@@ -117,9 +117,9 @@ final class FaceEnrollmentManager: ObservableObject {
             guard results.count == 1 else {
                 DispatchQueue.main.async {
                     if results.isEmpty {
-                        self.warningMessage = "No face detected — look at the camera"
+                        self.warningMessage = FGLocalization.text("No face detected — look at the camera")
                     } else {
-                        self.warningMessage = "Multiple faces detected — only one face allowed"
+                        self.warningMessage = FGLocalization.text("Multiple faces detected — only one face allowed")
                     }
                 }
                 return
@@ -135,7 +135,7 @@ final class FaceEnrollmentManager: ObservableObject {
             // Reject low-quality captures.
             guard quality >= FGConstants.minimumCaptureQuality else {
                 DispatchQueue.main.async {
-                    self.warningMessage = "Poor lighting or angle — adjust position"
+                    self.warningMessage = FGLocalization.text("Poor lighting or angle — adjust position")
                 }
                 return
             }
@@ -190,7 +190,7 @@ final class FaceEnrollmentManager: ObservableObject {
 
     private func finishEnrollment() {
         state = .processing
-        statusMessage = "Processing face data…"
+        statusMessage = FGLocalization.text("Processing face data…")
         cameraManager.onFrameCaptured = nil
         cameraManager.stopCapture()
 
@@ -202,7 +202,7 @@ final class FaceEnrollmentManager: ObservableObject {
                 let nextFaceNumber = enrollment.faces.count + 1
                 let newFace = FaceEnrollment.EnrolledFace(
                     id: UUID(),
-                    name: "Face \(nextFaceNumber)",
+                    name: FGLocalization.format("Face %d", nextFaceNumber),
                     embeddings: collectedEmbeddings,
                     enrolledDate: Date(),
                     averageQuality: averageQuality
@@ -212,7 +212,7 @@ final class FaceEnrollmentManager: ObservableObject {
             } else {
                 let newFace = FaceEnrollment.EnrolledFace(
                     id: UUID(),
-                    name: "Face 1",
+                    name: FGLocalization.format("Face %d", 1),
                     embeddings: collectedEmbeddings,
                     enrolledDate: Date(),
                     averageQuality: averageQuality
@@ -225,10 +225,10 @@ final class FaceEnrollmentManager: ObservableObject {
             UserDefaults.standard.set(true, forKey: FGConstants.faceUnlockEnabledKey)
 
             state = .success
-            statusMessage = "Face enrolled successfully!"
+            statusMessage = FGLocalization.text("Face enrolled successfully!")
         } catch {
-            state = .failed("Failed to save: \(error.localizedDescription)")
-            statusMessage = "Enrollment failed"
+            state = .failed(FGLocalization.format("Failed to save: %@", error.localizedDescription))
+            statusMessage = FGLocalization.text("Enrollment failed")
         }
     }
 }

@@ -15,9 +15,9 @@ enum AuthMethod: String, Codable, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .faceUnlock: return "Face Unlock"
-        case .touchID: return "Touch ID"
-        case .appPassword: return "App Password"
+        case .faceUnlock: return FGLocalization.text("Face Unlock")
+        case .touchID: return FGLocalization.text("Touch ID")
+        case .appPassword: return FGLocalization.text("App Password")
         }
     }
 
@@ -32,11 +32,11 @@ enum AuthMethod: String, Codable, CaseIterable, Identifiable {
     var description: String {
         switch self {
         case .faceUnlock:
-            return "Unlock apps by looking at your camera. Fast and hands-free."
+            return FGLocalization.text("Unlock apps by looking at your camera. Fast and hands-free.")
         case .touchID:
-            return "Use the Touch ID sensor on your Mac to authenticate."
+            return FGLocalization.text("Use the Touch ID sensor on your Mac to authenticate.")
         case .appPassword:
-            return "Enter your FaceGate password to unlock apps."
+            return FGLocalization.text("Enter your FaceGate password to unlock apps.")
         }
     }
 }

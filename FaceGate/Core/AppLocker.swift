@@ -99,7 +99,7 @@ final class AppLocker: ObservableObject {
     private func showOverlays(for bundleIdentifier: String) {
         dismissOverlays()
 
-        let appName = LockedAppsManager.shared.displayName(for: bundleIdentifier) ?? "Application"
+        let appName = LockedAppsManager.shared.displayName(for: bundleIdentifier) ?? FGLocalization.text("Application")
 
         let screens = NSScreen.screens
         let mouseLocation = NSEvent.mouseLocation

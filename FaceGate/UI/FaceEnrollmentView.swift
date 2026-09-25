@@ -28,7 +28,7 @@ struct FaceEnrollmentView: View {
         case .success:
             return "Face enrolled successfully!"
         case .failed(let message):
-            return "Enrollment failed: \(message)"
+            return FGLocalization.format("Enrollment failed: %@", message)
         }
     }
 
@@ -50,7 +50,7 @@ struct FaceEnrollmentView: View {
                 Text("Face Enrollment")
                     .font(.system(size: 20, weight: .bold, design: .rounded))
 
-                Text(staticStatusMessage)
+                Text(FGLocalization.text(staticStatusMessage))
                     .font(.system(size: 12))
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
@@ -304,7 +304,7 @@ struct FaceEnrollmentView: View {
 
     private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title)
+            Text(FGLocalization.text(title))
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.white)
                 .frame(width: 200, height: 38)
@@ -318,7 +318,7 @@ struct FaceEnrollmentView: View {
 
     private func secondaryButton(_ title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title)
+            Text(FGLocalization.text(title))
                 .font(.system(size: 13, weight: .medium))
                 .foregroundColor(.secondary)
         }

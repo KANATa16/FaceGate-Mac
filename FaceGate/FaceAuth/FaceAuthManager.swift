@@ -37,8 +37,8 @@ final class FaceAuthManager: ObservableObject {
 
         var prompt: String {
             switch self {
-            case .turnLeft: return "Liveness Check: Turn head left"
-            case .turnRight: return "Liveness Check: Turn head right"
+            case .turnLeft: return FGLocalization.text("Liveness Check: Turn head left")
+            case .turnRight: return FGLocalization.text("Liveness Check: Turn head right")
             }
         }
     }
@@ -121,7 +121,7 @@ final class FaceAuthManager: ObservableObject {
         frameCount = 0
         authStartTime = Date()
         state = .scanning
-        statusMessage = "Looking for your face…"
+        statusMessage = FGLocalization.text("Looking for your face…")
         warningMessage = ""
         activeChallenge = nil
 
@@ -137,7 +137,7 @@ final class FaceAuthManager: ObservableObject {
         let workItem = DispatchWorkItem { [weak self] in
             guard let self = self, self.state == .scanning else { return }
             self.state = .timeout
-            self.statusMessage = "Face not recognized"
+            self.statusMessage = FGLocalization.text("Face not recognized")
         }
         timeoutWorkItem = workItem
         DispatchQueue.main.asyncAfter(deadline: .now() + authTimeout, execute: workItem)
@@ -178,10 +178,10 @@ final class FaceAuthManager: ObservableObject {
             guard observations.count == 1, let face = observations.first else {
                 DispatchQueue.main.async {
                     if observations.isEmpty {
-                        self.statusMessage = "Looking for your face…"
+                        self.statusMessage = FGLocalization.text("Looking for your face…")
                         self.warningMessage = ""
                     } else {
-                        self.warningMessage = "Only one face allowed"
+                        self.warningMessage = FGLocalization.text("Only one face allowed")
                     }
                 }
                 return
@@ -209,7 +209,7 @@ final class FaceAuthManager: ObservableObject {
 
             guard result.isMatch else {
                 DispatchQueue.main.async {
-                    self.statusMessage = "Looking for your face…"
+                    self.statusMessage = FGLocalization.text("Looking for your face…")
                 }
                 return
             }
@@ -240,7 +240,7 @@ final class FaceAuthManager: ObservableObject {
                     self.timeoutWorkItem?.cancel()
                     self.timeoutWorkItem = nil
                     self.state = .matched
-                    self.statusMessage = "Liveness verified!"
+                    self.statusMessage = FGLocalization.text("Liveness verified!")
                     self.cameraManager.onFrameCaptured = nil
                     self.cameraManager.stopCapture()
                     self.onResult?(true)

@@ -1,0 +1,43 @@
+name: Build FaceGate 1.2.1 zh-Hans
+
+on:
+  push:
+    branches:
+      - codex/facegate-1.2.1-zh-hans
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate project
+        run: xcodegen generate
+      - name: Build universal app
+        run: |
+          xcodebuild -project FaceGate.xcodeproj \
+            -scheme FaceGate \
+            -configuration Release \
+            -derivedDataPath "$RUNNER_TEMP/FaceGateDerivedData" \
+            ARCHS="arm64 x86_64" \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+      - name: Sign and package
+        run: |
+          source_app="$RUNNER_TEMP/FaceGateDerivedData/Build/Products/Release/FaceGate.app"
+          package_dir="$RUNNER_TEMP/FaceGatePackage"
+          mkdir -p "$package_dir"
+          ditto --norsrc --noextattr "$source_app" "$package_dir/FaceGate 1.2.1 简体中文.app"
+          xattr -cr "$package_dir/FaceGate 1.2.1 简体中文.app"
+          codesign --force --deep --sign - "$package_dir/FaceGate 1.2.1 简体中文.app"
+          codesign --verify --deep --strict "$package_dir/FaceGate 1.2.1 简体中文.app"
+          plutil -lint "$package_dir/FaceGate 1.2.1 简体中文.app/Contents/Resources/zh-Hans.lproj/Localizable.strings"
+          ditto -c -k --keepParent "$package_dir/FaceGate 1.2.1 简体中文.app" FaceGate-1.2.1-简体中文.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FaceGate-1.2.1-zh-Hans
+          path: FaceGate-1.2.1-简体中文.zip
+          if-no-files-found: error

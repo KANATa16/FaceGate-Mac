@@ -46,7 +46,7 @@ struct MenuBarView: View {
                     Circle()
                         .fill(statusColor)
                         .frame(width: 6, height: 6)
-                    Text(statusText)
+                    Text(FGLocalization.text(statusText))
                         .font(.system(size: 10, weight: .medium))
                         .foregroundColor(.secondary)
                 }
@@ -93,7 +93,7 @@ struct MenuBarView: View {
                 // Temporarily Disable.
                 MenuButton(
                     icon: isTemporarilyDisabled ? "play.circle" : "pause.circle",
-                    title: isTemporarilyDisabled ? "Resume Protection (\(formattedTimeRemaining))" : "Disable for 5 min",
+                    title: isTemporarilyDisabled ? FGLocalization.format("Resume Protection (%@)", formattedTimeRemaining) : "Disable for 5 min",
                     action: toggleTemporaryDisable
                 )
 
@@ -177,7 +177,7 @@ struct MenuBarView: View {
             sessionManager.revokeAllSessions()
         } else {
             // Disable for 5 minutes.
-            ActionAuthWindow.show(reason: "Disable Protection") {
+            ActionAuthWindow.show(reason: FGLocalization.text("Disable Protection")) {
                 DispatchQueue.main.async {
                     let expiry = Date().addingTimeInterval(300)
                     UserDefaults.standard.set(true, forKey: FGConstants.protectionDisabledKey)
@@ -247,7 +247,7 @@ struct MenuBarView: View {
         if isSettingsOpen {
             NSApplication.shared.terminate(nil)
         } else {
-            ActionAuthWindow.show(reason: "Quit FaceGate") {
+            ActionAuthWindow.show(reason: FGLocalization.text("Quit FaceGate")) {
                 appDelegate?.isAuthorizedToQuit = true
                 NSApplication.shared.terminate(nil)
             }
@@ -342,7 +342,7 @@ private struct MenuButton: View {
                     .font(.system(size: 12))
                     .frame(width: 16)
                     .foregroundColor(isDestructive ? .red.opacity(0.8) : .secondary)
-                Text(title)
+                Text(FGLocalization.text(title))
                     .font(.system(size: 12))
                     .foregroundColor(isDestructive ? .red.opacity(0.8) : .primary)
                 Spacer()

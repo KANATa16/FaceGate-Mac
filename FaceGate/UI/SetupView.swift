@@ -198,7 +198,7 @@ struct SetupView: View {
                     .frame(maxWidth: 300)
 
                 if let error = passwordError {
-                    Text(error)
+                    Text(FGLocalization.text(error))
                         .font(.system(size: 11))
                         .foregroundColor(.red)
                 }
@@ -335,7 +335,7 @@ struct SetupView: View {
 
     private func setupButton(_ title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title)
+            Text(FGLocalization.text(title))
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.white)
                 .frame(width: 200, height: 38)
@@ -366,7 +366,7 @@ struct SetupView: View {
             try PasswordAuth.shared.setPassword(password)
             currentStep = .selectApps
         } catch {
-            passwordError = "Failed to save: \(error.localizedDescription)"
+            passwordError = FGLocalization.format("Failed to save: %@", error.localizedDescription)
         }
     }
 
@@ -403,9 +403,9 @@ private struct FeatureRow: View {
                 .frame(width: 28)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(title)
+                Text(FGLocalization.text(title))
                     .font(.system(size: 13, weight: .semibold))
-                Text(subtitle)
+                Text(FGLocalization.text(subtitle))
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
             }
@@ -428,9 +428,9 @@ private struct PermissionRow: View {
                 .frame(width: 28)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(title)
+                Text(FGLocalization.text(title))
                     .font(.system(size: 13, weight: .medium))
-                Text(description)
+                Text(FGLocalization.text(description))
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
             }

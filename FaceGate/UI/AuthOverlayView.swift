@@ -60,7 +60,7 @@ struct AuthOverlayView: View {
                     .padding(.bottom, 8)
 
                 // "App Name is Locked".
-                Text(isAppLocking ? "\(appName) is Locked" : appName)
+                Text(isAppLocking ? FGLocalization.format("%@ is Locked", appName) : appName)
                     .font(.system(size: 22, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
                     .padding(.bottom, 6)
@@ -72,7 +72,7 @@ struct AuthOverlayView: View {
                         .foregroundColor(.red.opacity(0.8))
                         .padding(.bottom, 10)
                 } else {
-                    Text(subtitleMessage ?? (isAppLocking ? "Authenticate to unlock this app" : "Authenticate to proceed"))
+                    Text(FGLocalization.text(subtitleMessage ?? (isAppLocking ? "Authenticate to unlock this app" : "Authenticate to proceed")))
                         .font(.system(size: 13, weight: .regular))
                         .foregroundColor(.white.opacity(0.6))
                         .padding(.bottom, 10)
@@ -162,7 +162,7 @@ struct AuthOverlayView: View {
                     authManager.stopFaceAuth()
                     onCancel()
                 }) {
-                    Text(cancelButtonTitle)
+                    Text(FGLocalization.text(cancelButtonTitle))
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.white.opacity(0.4))
                 }
@@ -273,7 +273,7 @@ struct AuthOverlayView: View {
             VStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 16))
-                Text(label)
+                Text(FGLocalization.text(label))
                     .font(.system(size: 10, weight: .medium))
             }
             .frame(width: 80, height: 50)
@@ -321,7 +321,7 @@ struct AuthOverlayView: View {
             HStack(spacing: 8) {
                 Image(systemName: "xmark.circle.fill")
                     .foregroundColor(.red.opacity(0.8))
-                Text(message)
+                Text(FGLocalization.text(message))
                     .font(.system(size: 12))
                     .foregroundColor(.red.opacity(0.8))
             }
